@@ -1,33 +1,24 @@
 import string
 from binascii import unhexlify
-letter_order = 'etaoinshrdlcumwfgypbvkjxqz'
 
-freq = {'e': 12.702, 't': 9.056, 'a': 8.167, 'o': 7.507, 'i': 6.966, 'n': 6.749, 's': 6.327,
-        'h': 6.094, 'r': 5.987, 'd': 4.253, 'l': 4.025, 'c': 2.782,	'u': 2.758,	'm': 2.406,
-        'w': 2.360,	'f': 2.228,	'g': 2.015,	'y': 1.974,	'p': 1.929,	'b': 1.492,	'v': 0.978,
-        'k': 0.772,	'j': 0.153,	'x': 0.150,	'q': 0.095,	'z': 0.074}
+freqs = {'a': 6.51738, 'b': 1.24248, 'c': 2.17339, 'd': 3.49835, 'e': 0.41442,
+         'f': 1.97881, 'g': 1.58610, 'h': 4.92888, 'i': 5.58094, 'j': 0.09033, 
+         'k': 0.50529, 'l': 3.31490, 'm': 2.02124, 'n': 5.64513, 'o': 5.96302, 
+         'p': 1.37645, 'q': 0.08606, 'r': 4.97563, 's': 5.15760, 't': 7.29357,
+         'u': 2.25134, 'v': 0.82903, 'w': 1.71272, 'x': 0.13692, 'y': 1.45984,
+         'z': 0.07836, ' ': 19.18182}
 
-def score_bytes(l_string):
-    score = 0.0
-    t = {x:(l_string.lower().count(x) / total_chars)*100 for x in string.ascii_lowercase}
-    for x in t.keys():
-        score += t[x] / freq[x]
-    return score
-
-best = (0,2000)
-printable_bytes = bytes(string.printable,'utf8')
-ascii_lower_bytes = bytes(string.ascii_lowercase,'utf8')
 test = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
-test_bytes = unhexlify(test)
-
+sample_bytes = unhexlify(test)
+best = (0,0,0)
 for xor_key in range(256):
-    test_string = bytes([xor_key ^ c for c in test_bytes])
-    total_chars = sum([test_string.count(x) for x in printable_bytes])
-    if total_chars == len(test_string):
-        # print('Key:',xor_key, test_string)
-        p = score_bytes(test_string.decode())
-        if p < best[1]:
-            best = (xor_key, p, test_string.decode())
+    test_bytes = bytes([xor_key ^ c for c in sample_bytes])
+    total_chars = sum([test_bytes.count(x) for x in string.printable.encode()])
+    if total_chars == len(test_bytes):
+        test_string = test_bytes.decode()
+        score = sum([freqs[x] for x in test_string if x in freqs])
+        if score > best[1]:
+            best = (xor_key, score, test_string)
 
     
 print("Best XOR Key:", hex(best[0]))
