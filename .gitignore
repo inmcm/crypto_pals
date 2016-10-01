@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# VScode Specific
+.vscode/
+
+# OS X Specific
+.DS_Store 
