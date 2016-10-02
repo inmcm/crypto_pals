@@ -90,6 +90,7 @@ ENV/
 
 # VScode Specific
 .vscode/
+.cache/
 
 # OS X Specific
 .DS_Store 
