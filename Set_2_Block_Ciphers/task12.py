@@ -10,7 +10,6 @@ from Crypto.Cipher import AES
 secret_string = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK"
 secret_string_decode = base64.b64decode(secret_string)
 secret_string_len = len(secret_string_decode)
-print("Length of secret string:", secret_string_len)
 secret_key = random_AES_key()
 
 
@@ -41,6 +40,7 @@ def generate_block_last_block_dict(known_input, aes_key):
 
 
 if __name__ == '__main__':
+    print("Length of secret string:", secret_string_len)
     print("AES BLOCK SIZE: ", discover_block_size())
     const_char = b'A'
     attack_str_size = 159
