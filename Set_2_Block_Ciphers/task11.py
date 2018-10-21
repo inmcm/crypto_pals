@@ -5,8 +5,10 @@ from task9 import pad_bytes_size
 from task10 import MyCBC
 from Crypto.Cipher import AES
 
+
 def random_AES_key():
     return bytes([randint(0, 255) for _ in range(16)])
+
 
 def encryption_oracle(plaintext):
 
@@ -29,13 +31,22 @@ def encryption_oracle(plaintext):
         ciphertext += cipher.encrypt(complete_payload[x:x+16])
 
     return ciphertext
-    
+
+
+def ecb_cbc_detection():
+    ptext = b'X' * 256
+    ctext = encryption_oracle(ptext)
+    print("Ciphertext length:", len(ctext))
+    blocks = [bytes(ctext[i:i + 15]) for i in range(0, len(ctext), 16)]
+    for x, y in enumerate(blocks):
+        print("Block: ", x, ":", y)
+    if blocks[1] == blocks[2]:
+        return 'ECB'
+    else:
+        return 'CBC'
 
 if __name__ == '__main__':
-
     print(random_AES_key())
-
-    ptext = b'X' * 256
-
-    print(encryption_oracle(ptext))
-
+    for x in range(20):
+        print(ecb_cbc_detection())
+        print("")

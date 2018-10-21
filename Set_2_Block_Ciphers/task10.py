@@ -40,5 +40,5 @@ if __name__ == '__main__':
     cipher = MyCBC(iv, key)
 
     for x in range(0, len(ctext), 16):
-        plain = cipher.decrypt(ctext[x:x+16])
+        plain = cipher.decrypt(ctext[x:x + 16])
         print(plain)
