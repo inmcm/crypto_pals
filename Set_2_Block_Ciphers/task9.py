@@ -1,6 +1,6 @@
 
 
-def pad_bytes_size(in_bytes, block_size):
+def pad_bytes_size(in_bytes, block_size=16):
     input_len = len(in_bytes)
     if (input_len % block_size) == 0:
         return in_bytes
